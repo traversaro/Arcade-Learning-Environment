@@ -41,6 +41,7 @@ class CMakeBuild(build_ext):
         cmake_generator = os.environ.get("CMAKE_GENERATOR", "")
 
         cmake_args = [
+            f"-GNinja",
             f"-DCMAKE_BUILD_TYPE={config}",
             f"-DPython3_EXECUTABLE={sys.executable}",
             f"-DCMAKE_LIBRARY_OUTPUT_DIRECTORY={extdir}",
@@ -58,7 +59,7 @@ class CMakeBuild(build_ext):
             cmake_args.append("-DBUILD_VECTOR_XLA_LIB=ON")
         build_args = []
 
-        if self.compiler.compiler_type != "msvc":
+        if False:
             # Using Ninja-build since it a) is available as a wheel and b)
             # multithreads automatically. MSVC would require all variables be
             # exported for Ninja to pick it up, which is a little tricky to do.
@@ -79,7 +80,7 @@ class CMakeBuild(build_ext):
                             "-GNinja",
                         ]
 
-        else:
+        elif False:
             # Single config generators are handled "normally"
             single_config = any(x in cmake_generator for x in {"NMake", "Ninja"})
 
